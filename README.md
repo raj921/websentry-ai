@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WebSentry AI
 
-## Getting Started
+WebSentry AI is a Bright Data-powered control plane for safe live-web AI agents. It demonstrates how enterprise agents can discover public web sources, enforce domain and budget policy, fetch through Bright Data, scan for prompt injection, and produce citation-backed GTM intelligence.
 
-First, run the development server:
+## Stack
+
+- Next.js 16, React 19, TypeScript, Tailwind v4
+- shadcn/ui
+- 21st.dev Agent Elements
+- Bright Data SERP API and Web Unlocker API
+- OpenRouter primary LLM path, defaulting to `google/gemini-2.5-flash`
+- Vitest unit tests
+
+## Run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The app works without secrets in deterministic demo mode. Add real keys to enable live calls:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env.local
+```
 
-## Learn More
+Required for OpenRouter:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+OPENROUTER_API_KEY=...
+OPENROUTER_MODEL=google/gemini-2.5-flash
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Required for Bright Data:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+BRIGHT_DATA_API_KEY=...
+BRIGHT_DATA_SERP_ZONE=serp_api1
+BRIGHT_DATA_UNLOCKER_ZONE=unlocker
+```
 
-## Deploy on Vercel
+## Demo Flow
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Default scenario:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Target: Linear
+- Competitors: Asana, ClickUp
+- Focus: pricing, hiring, product launches, positioning
+- Allowed domains: `linear.app`, `asana.com`, `clickup.com`
+- Budget: `$2.00`
+
+The dashboard shows:
+
+- Bright Data SERP discovery
+- Web Unlocker fetches
+- policy allow/block decisions
+- prompt-injection findings
+- spend and remaining budget
+- citation-backed GTM intelligence brief
+- exportable audit JSON
+
+## Validation
+
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+```
+
+## Bright Data Notes
+
+SERP API and Web Unlocker API both use:
+
+```txt
+https://api.brightdata.com/request
+```
+
+WebSentry uses live Bright Data only when the required env vars exist. Otherwise it stays judge-safe with deterministic demo data and labels the mode clearly.
