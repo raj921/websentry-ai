@@ -14,13 +14,13 @@ AI agents need current public web data, but enterprises cannot let unmanaged age
 
 WebSentry AI is a governed control plane for live-web AI agents. Every investigation runs through a policy engine that checks approved domains, budget limits, request telemetry, Bright Data product routing, and page-level adversarial content before the evidence reaches the LLM.
 
-The demo focuses on GTM intelligence. A user enters a target company, competitors, focus areas, domain policy, budget, and risk tolerance. WebSentry discovers pricing, hiring, launch, and positioning sources through Bright Data SERP API, fetches approved pages through Bright Data Web Unlocker, scans content for hidden agent instructions, and generates a citation-backed competitive brief through OpenRouter.
+The demo focuses on GTM intelligence. A user enters a target company, competitors, focus areas, domain policy, budget, and risk tolerance. WebSentry discovers pricing, hiring, launch, and positioning sources through Bright Data SERP API, fetches approved pages through Bright Data Web Unlocker, scans content for hidden agent instructions, and generates a citation-backed competitive brief through AI/ML API.
 
 Bright Data is load-bearing. SERP API powers real-time discovery, Web Unlocker handles reliable public page access, and the UI presents the workflow as an observable agent tool timeline. If credentials are unavailable during judging, deterministic demo mode preserves the exact same policy, risk, audit, and brief flow.
 
 ## Technology Tags
 
-Next.js, React, TypeScript, Tailwind CSS, shadcn/ui, 21st.dev Agent Elements, Bright Data SERP API, Bright Data Web Unlocker API, OpenRouter, Gemini 2.5 Flash, AI Agents, Web Scraping, GTM Intelligence, Security, Compliance
+Next.js, React, TypeScript, Tailwind CSS, shadcn/ui, 21st.dev Agent Elements, Bright Data SERP API, Bright Data Web Unlocker API, AI/ML API, AI Agents, Web Scraping, GTM Intelligence, Security, Compliance
 
 ## Judge Pitch
 
@@ -41,7 +41,7 @@ I enter Linear as the target and Asana plus ClickUp as competitors. Bright Data 
 WebSentry fetches approved pages through Web Unlocker, scans each page as untrusted content, detects a hidden prompt-injection fixture, and removes unsafe instructions before evidence goes to the model.
 
 1:50 - Business Output  
-OpenRouter generates a GTM intelligence brief with pricing signals, hiring signals, product direction, positioning, recommended sales angles, and source citations.
+AI/ML API generates a GTM intelligence brief with pricing signals, hiring signals, product direction, positioning, recommended sales angles, and source citations.
 
 2:20 - Audit  
 The audit view shows every step: discovery, policy checks, fetches, scan results, product used, latency, bytes, cost estimate, and risk score. The report exports as JSON.

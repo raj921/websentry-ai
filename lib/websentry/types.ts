@@ -70,7 +70,7 @@ export type Brief = {
 
 export type InvestigationResponse = {
   runId: string;
-  mode: "demo" | "bright-data" | "openrouter-demo" | "bright-data-openrouter";
+  mode: "demo" | "bright-data" | "aimlapi-demo" | "bright-data-aimlapi";
   brief: Brief;
   sources: Source[];
   auditEvents: AuditEvent[];

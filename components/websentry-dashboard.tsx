@@ -132,7 +132,7 @@ export function WebSentryDashboard() {
             <div className="mb-8 flex flex-wrap items-center gap-2">
               <Badge className="rounded-[4px] border-[#80b76b] bg-[#243322] text-[#c8f0b4]">Web Data UNLOCKED</Badge>
               <Badge className="rounded-[4px] border-[#d98c24] bg-[#332717] text-[#ffd08c]">Bright Data control plane</Badge>
-              <Badge className="rounded-[4px] border-[#82a7ff] bg-[#17223d] text-[#cbd8ff]">OpenRouter primary</Badge>
+              <Badge className="rounded-[4px] border-[#82a7ff] bg-[#17223d] text-[#cbd8ff]">AI/ML API primary</Badge>
             </div>
             <div className="grid gap-5 lg:grid-cols-[1fr_220px]">
               <div>
@@ -177,7 +177,7 @@ export function WebSentryDashboard() {
                     <KeyRound className="h-4 w-4" />
                   </TooltipTrigger>
                   <TooltipContent>
-                    Works without keys in demo mode. Add Bright Data and OpenRouter env vars for live calls.
+                    Works without keys in demo mode. Add Bright Data and AI/ML API env vars for live calls.
                   </TooltipContent>
                 </Tooltip>
               </div>
@@ -516,7 +516,7 @@ function RiskPanel({ result }: { result: InvestigationResponse | null }) {
         <h2 className="text-2xl font-black">Prompt-injection firewall</h2>
         <p className="mt-3 leading-7 text-[#d7ddcf]">
           Web content is treated as hostile. Hidden DOM, suspicious metadata, and direct model-control phrases are
-          quarantined before evidence reaches OpenRouter.
+          quarantined before evidence reaches the AI/ML API model.
         </p>
         <div className="mt-6 space-y-3">
           <RiskStat label="High severity" value={String(result.riskFindings.filter((item) => item.severity === "high").length)} />

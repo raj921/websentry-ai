@@ -8,7 +8,7 @@ WebSentry AI is a Bright Data-powered control plane for safe live-web AI agents.
 - shadcn/ui
 - 21st.dev Agent Elements
 - Bright Data SERP API and Web Unlocker API
-- OpenRouter primary LLM path, defaulting to `google/gemini-2.5-flash`
+- AI/ML API primary LLM path, defaulting to `gpt-4o-mini`
 - Vitest unit tests
 
 ## Run
@@ -26,11 +26,11 @@ The app works without secrets in deterministic demo mode. Add real keys to enabl
 cp .env.example .env.local
 ```
 
-Required for OpenRouter:
+Required for AI/ML API:
 
 ```bash
-OPENROUTER_API_KEY=...
-OPENROUTER_MODEL=google/gemini-2.5-flash
+AIMLAPI_API_KEY=...
+AIMLAPI_MODEL=gpt-4o-mini
 ```
 
 Required for Bright Data:
@@ -38,7 +38,7 @@ Required for Bright Data:
 ```bash
 BRIGHT_DATA_API_KEY=...
 BRIGHT_DATA_SERP_ZONE=serp_api1
-BRIGHT_DATA_UNLOCKER_ZONE=unlocker
+BRIGHT_DATA_UNLOCKER_ZONE=web_unlocker1
 ```
 
 ## Demo Flow
@@ -58,7 +58,7 @@ The dashboard shows:
 - policy allow/block decisions
 - prompt-injection findings
 - spend and remaining budget
-- citation-backed GTM intelligence brief
+- citation-backed GTM intelligence brief through AI/ML API
 - exportable audit JSON
 
 ## Validation

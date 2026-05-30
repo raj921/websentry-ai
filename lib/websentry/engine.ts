@@ -1,6 +1,6 @@
 import { discoverSources, fetchSourceContent } from "./bright-data";
 import { deriveDefaultAllowedDomains, evaluatePolicy, normalizeDomains } from "./policy";
-import { buildBrief } from "./openrouter";
+import { buildBrief, DEFAULT_AIMLAPI_MODEL } from "./aimlapi";
 import { sanitizeForModel, scanForPromptInjection } from "./security";
 import type {
   AuditEvent,
@@ -142,18 +142,18 @@ export async function runInvestigation(input: Partial<InvestigationRequest>): Pr
     citations,
     sanitizedEvidence,
   });
-  productsUsed.add(briefResult.usedOpenRouter ? "OpenRouter" : "Deterministic Brief Generator");
+  productsUsed.add(briefResult.usedAimlApi ? "AI/ML API" : "Deterministic Brief Generator");
   auditEvents.push(
     audit({
       step: "summarize",
-      product: briefResult.usedOpenRouter ? `OpenRouter ${process.env.OPENROUTER_MODEL ?? "google/gemini-2.5-flash"}` : "Deterministic Brief Generator",
+      product: briefResult.usedAimlApi ? `AI/ML API ${process.env.AIMLAPI_MODEL ?? DEFAULT_AIMLAPI_MODEL}` : "Deterministic Brief Generator",
       status: briefResult.error ? "warning" : "ok",
       message: briefResult.error
-        ? `OpenRouter fallback used: ${briefResult.error}`
+        ? `AI/ML API fallback used: ${briefResult.error}`
         : "Generated citation-backed GTM intelligence brief.",
-      latencyMs: briefResult.usedOpenRouter ? 900 : 42,
+      latencyMs: briefResult.usedAimlApi ? 900 : 42,
       bytes: sanitizedEvidence.length,
-      costUsd: briefResult.usedOpenRouter ? 0.01 : 0,
+      costUsd: briefResult.usedAimlApi ? 0.01 : 0,
       riskScore: Math.max(0, ...riskFindings.map((finding) => finding.score)),
     }),
   );
@@ -161,7 +161,7 @@ export async function runInvestigation(input: Partial<InvestigationRequest>): Pr
   const brightDataMode = productsUsed.has("Bright Data SERP API") || productsUsed.has("Bright Data Web Unlocker");
   return {
     runId,
-    mode: brightDataMode && briefResult.usedOpenRouter ? "bright-data-openrouter" : brightDataMode ? "bright-data" : briefResult.usedOpenRouter ? "openrouter-demo" : "demo",
+    mode: brightDataMode && briefResult.usedAimlApi ? "bright-data-aimlapi" : brightDataMode ? "bright-data" : briefResult.usedAimlApi ? "aimlapi-demo" : "demo",
     brief: briefResult.brief,
     sources: fetchedSources,
     auditEvents,

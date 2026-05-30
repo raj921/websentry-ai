@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { runInvestigation } from "./engine";
-import { buildBrief } from "./openrouter";
+import { buildBrief } from "./aimlapi";
 import { buildDemoSources } from "./demo-data";
 import type { InvestigationRequest } from "./types";
 
@@ -21,7 +21,7 @@ describe("investigation engine", () => {
     delete process.env.BRIGHT_DATA_API_KEY;
     delete process.env.BRIGHT_DATA_SERP_ZONE;
     delete process.env.BRIGHT_DATA_UNLOCKER_ZONE;
-    delete process.env.OPENROUTER_API_KEY;
+    delete process.env.AIMLAPI_API_KEY;
   });
 
   afterEach(() => {
@@ -46,8 +46,8 @@ describe("investigation engine", () => {
     expect(result.riskFindings.some((finding) => finding.category === "prompt-injection")).toBe(true);
   });
 
-  it("falls back when OpenRouter is configured but fails", async () => {
-    process.env.OPENROUTER_API_KEY = "test-key";
+  it("falls back when AI/ML API is configured but fails", async () => {
+    process.env.AIMLAPI_API_KEY = "test-key";
     vi.stubGlobal(
       "fetch",
       vi.fn(async () => new Response("nope", { status: 500 })),
@@ -61,8 +61,8 @@ describe("investigation engine", () => {
       sanitizedEvidence: "safe evidence",
     });
 
-    expect(result.usedOpenRouter).toBe(false);
-    expect(result.error).toContain("OpenRouter returned 500");
+    expect(result.usedAimlApi).toBe(false);
+    expect(result.error).toContain("AI/ML API returned 500");
     expect(result.brief.headline).toContain("Linear");
   });
 });

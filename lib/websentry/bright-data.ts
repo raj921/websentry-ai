@@ -34,7 +34,7 @@ export async function discoverSources(request: InvestigationRequest): Promise<{
       body: JSON.stringify({
         zone: process.env.BRIGHT_DATA_SERP_ZONE,
         url: `https://www.google.com/search?q=${query}&hl=en&gl=us`,
-        format: "json",
+        format: "raw",
       }),
     });
 

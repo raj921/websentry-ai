@@ -1,32 +1,32 @@
 import { buildFallbackBrief } from "./demo-data";
 import type { Brief, InvestigationRequest, Source } from "./types";
 
-const OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
+const AIMLAPI_ENDPOINT = "https://api.aimlapi.com/v1/chat/completions";
+
+export const DEFAULT_AIMLAPI_MODEL = "google/gemini-3-5-flash";
 
 export async function buildBrief(params: {
   request: InvestigationRequest;
   sources: Source[];
   citations: { label: string; url: string }[];
   sanitizedEvidence: string;
-}): Promise<{ brief: Brief; usedOpenRouter: boolean; error?: string }> {
-  if (!process.env.OPENROUTER_API_KEY) {
+}): Promise<{ brief: Brief; usedAimlApi: boolean; error?: string }> {
+  if (!process.env.AIMLAPI_API_KEY) {
     return {
       brief: buildFallbackBrief(params),
-      usedOpenRouter: false,
+      usedAimlApi: false,
     };
   }
 
   try {
-    const response = await fetch(OPENROUTER_ENDPOINT, {
+    const response = await fetch(AIMLAPI_ENDPOINT, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        Authorization: `Bearer ${process.env.AIMLAPI_API_KEY}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
-        "X-Title": "WebSentry AI",
       },
       body: JSON.stringify({
-        model: process.env.OPENROUTER_MODEL ?? "google/gemini-2.5-flash",
+        model: process.env.AIMLAPI_MODEL ?? DEFAULT_AIMLAPI_MODEL,
         temperature: 0.2,
         response_format: { type: "json_object" },
         messages: [
@@ -60,25 +60,25 @@ export async function buildBrief(params: {
     });
 
     if (!response.ok) {
-      throw new Error(`OpenRouter returned ${response.status}`);
+      throw new Error(`AI/ML API returned ${response.status}`);
     }
 
     const data = (await response.json()) as {
       choices?: { message?: { content?: string } }[];
     };
     const content = data.choices?.[0]?.message?.content;
-    if (!content) throw new Error("OpenRouter response did not include content");
+    if (!content) throw new Error("AI/ML API response did not include content");
 
     const parsed = JSON.parse(content) as Brief;
     return {
       brief: normalizeBrief(parsed, params),
-      usedOpenRouter: true,
+      usedAimlApi: true,
     };
   } catch (error) {
     return {
       brief: buildFallbackBrief(params),
-      usedOpenRouter: false,
-      error: error instanceof Error ? error.message : "Unknown OpenRouter failure",
+      usedAimlApi: false,
+      error: error instanceof Error ? error.message : "Unknown AI/ML API failure",
     };
   }
 }
